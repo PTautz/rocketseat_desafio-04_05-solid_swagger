@@ -16,7 +16,7 @@ class CreateUserUseCase {
 
     if (userEmailAlreadyExists) {
       // O certo nesse caso seria retornar 409, mas a condição de teste requer 400 para validar o desafio
-      throw new CustomError(400,'Email already taken!');
+      throw new CustomError(400,'Bad Request - Email already taken!');
     }
     const userCreated = this.usersRepository.create({ name, email });
 

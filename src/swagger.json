@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Desafio04-Solid_Rockeatseat Documentation",
+    "description": "This is an user registration API sample to complete the Rocketseat challenge",
+    "version": "1.0.0",
+    "contact": {
+      "email": "patinele.league@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Donatelo dog name sample",
+                  "email": "donatello@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created with sucess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  },
+                  "example": {
+                    "id": "167c0dfb-535c-46ce-88df-d3460be6a9ab",
+                    "name": "Donatello",
+                    "admin": false,
+                    "email": "donatello@catiorro.com.br",
+                    "created_at": "2022-01-22T01:30:19.992Z",
+                    "updated_at": "2022-01-22T02:23:19.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Email already taken!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "error",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "This email is already in use"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "List all users",
+        "description": "List all users if user.admin = true",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "0735b914-f017-4a6c-b230-a6084a22ce6e"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Jojoca"
+                      },
+                      "admin": {
+                        "type": "boolean",
+                        "example": "true"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "jojoca@bebezao.com"
+                      },
+                      "created_at": {
+                        "type": "date",
+                        "example": "2022-01-17T19:36:28.438Z"
+                      },
+                      "updated_at": {
+                        "type": "date",
+                        "example": "2022-01-17T19:36:28.438Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": " Bad Request - Unauthorized user for this request! or User not found ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "error",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Bad Request - Unauthorized user for this request! or User not found! "
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Turn user into admin",
+        "description": "Turn user user into a administrator",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucess, user is now a admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  },
+                  "example": {
+                    "id": "167c0dfb-535c-46ce-88df-d3460be6a9ab",
+                    "name": "Jojoca",
+                    "admin": true,
+                    "email": "bebejoca@bebe.com.br",
+                    "created_at": "2022-01-10T10:08:22.992Z",
+                    "updated_at": "2022-01-10T10:08:22.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "error",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Show user profile",
+        "description": "Return user profile data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "0735b914-f017-4a6c-b230-a6084a22ce6e"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jojoca"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "true"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "jojoca@bebezao.com"
+                    },
+                    "created_at": {
+                      "type": "date",
+                      "example": "2022-01-17T19:36:28.438Z"
+                    },
+                    "updated_at": {
+                      "type": "date",
+                      "example": "2022-01-17T19:36:28.438Z"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "User profile data returned"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "error",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User registration"
+    }
+  ]
+}

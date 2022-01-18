@@ -14,11 +14,11 @@ class ListAllUsersUseCase {
 
     if (!user) {
       // status erro incorreto mas conforme requisitado no teste
-      throw new CustomError(400, 'User not found!');
+      throw new CustomError(400, 'Bad Request - User not found!');
     }
     if (user.admin === false){
       // status erro incorreto mas conforme requisitado no teste
-      throw new CustomError(400, 'Unauthorized user for this request !');
+      throw new CustomError(400, 'Bad Request - Unauthorized user for this request!');
     }
      
     const users = this.usersRepository.list();
